@@ -1,16 +1,16 @@
 "use client";
 import { useEffect } from "react";
-import Footer from "../components/footer/Footer";
+import Footer from "../footer/Footer";
 import Hero from "./hero/Hero";
-import NavMenu from "../components/navmenu/NavMenu";
-import ButtonLinkMail from "../components/signup/ButtonLinkMail";
+import NavMenu from "../navmenu/NavMenu";
+import ButtonLinkMail from "../signup/ButtonLinkMail";
 
 export default function Page1({
   showNavMenu = true,
   showFooter = true,
 }: {
-  showNavMenu: boolean;
-  showFooter: boolean;
+  showNavMenu?: boolean;
+  showFooter?: boolean;
 }) {
   useEffect(() => {
     // On page load or when changing themes, best to add inline in `head` to avoid FOUC
@@ -34,7 +34,7 @@ export default function Page1({
 
   return (
     <>
-      <main className="h-screen min-h-fit">
+      <main className="h-screen min-h-fit flex flex-col justify-center items-center">
         {/* Hero */}
         <Hero />
 

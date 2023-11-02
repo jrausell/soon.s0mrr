@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import SignUp from "../../components/signup/SignUp";
-import ButtonLinkMail from "../../components/signup/ButtonLinkMail";
+import SignUp from "../../signup/SignUp";
+import ButtonLinkMail from "../../signup/ButtonLinkMail";
 
 const Hero = () => {
   return (
@@ -50,9 +50,9 @@ const Hero = () => {
             </div>
           </div>
           {/* image */}
-          <div className="absolute bottom-0 right-0 w-1/2 h-[120%] -mb-[8%] flex flex-row justify-end">
+          <div className="absolute bottom-0 right-0 w-1/2 h-full  flex flex-row justify-end">
             <Image
-              src="/images/multitasking.png"
+              src="/images/search.png"
               width={300}
               height={300}
               className="h-auto w-auto"

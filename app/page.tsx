@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
 import Footer from "./components/footer/Footer";
-import Page1 from "./page1/page";
-import Page2 from "./page2/page";
-import Page3 from "./page3/page";
+import Page1 from "./components/page1";
+import Page2 from "./components/page2";
+import Page3 from "./components/page3";
 import SignUp from "./components/signup/SignUp";
 import NavMenu from "./components/navmenu/NavMenu";
 
