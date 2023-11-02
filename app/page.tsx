@@ -25,7 +25,6 @@ export default function Home() {
    * This is the Home Page
    * You can choose a multiple pages as show below
    * Or just one page using one of the templates, or your own
-   *
    */
 
   return (
