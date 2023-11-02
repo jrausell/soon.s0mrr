@@ -35,9 +35,6 @@ export default function Page1({
   return (
     <>
       <main className="h-screen min-h-fit">
-        {/* NavTop */}
-        {showNavMenu && <NavMenu />}
-
         {/* Hero */}
         <Hero />
 

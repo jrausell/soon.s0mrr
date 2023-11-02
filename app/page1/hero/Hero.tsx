@@ -12,35 +12,36 @@ const Hero = () => {
           <div className="w-3/5">
             <div className="grow-0 shrink h-auto flex flex-row justify-start items-center">
               <h1 className="relative text-6xl font-black bg-gradient-to-br from-cyan-400 via-purple-300 to-fuchsia-700 text-transparent bg-clip-text">
-                <span className="text-blue-300">Y</span>OUR
-                <span className="text-pink-300">S</span>ITE
+                <span className="text-blue-300">$</span>
+                <span className="text-pink-300">0</span>MRR
               </h1>
               <span className="font-light ml-3 text-pink-500 ">
-                / Coming soon?
+                Coming soon !
               </span>
             </div>
             {/* */}
             <div className="mt-4 font-extralight text-2xl flex flex-col justify-between">
               <div>Tired of everything being messy?</div>
               <div>
-                Soon you will have a{" "}
+                Keep track of the things that{" "}
                 <span
                   style={{
                     height: "100px" /* Adjust the height as needed */,
                     background: "linear-gradient(transparent 50%, #2395b2 50%)",
                   }}
                 >
-                  way to organize
+                  motivate you
                 </span>{" "}
-                everything, so that everything is{" "}
+                in one place.{" "}
                 <span
                   style={{
                     height: "100px" /* Adjust the height as needed */,
                     background: "linear-gradient(transparent 50%, #b5a52d 50%)",
                   }}
                 >
-                  where it needs to be
+                  Get inspired
                 </span>
+                , stay on track and finish it.
               </div>
               {/* form */}
               <div className=" mt-20 flex flex-col justify-start w-4/5">
