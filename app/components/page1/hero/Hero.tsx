@@ -51,14 +51,23 @@ const Hero = () => {
             </div>
           </div>
           {/* image */}
-          <div className="absolute bottom-0 right-0 w-1/2 h-full  flex flex-row justify-end">
+          <div
+            className="absolute bottom-0 right-0 w-1/2 h-full  flex flex-row justify-end"
+            style={{
+              backgroundImage: "url(/images/search.png)",
+              backgroundPosition: "top",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+            }}
+          >
+            {/*
             <Image
               src="/images/search.png"
               width={300}
               height={300}
               className="h-auto w-auto"
               alt=""
-            />
+          />*/}
           </div>
         </div>
       </div>
