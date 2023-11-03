@@ -9,6 +9,11 @@ export async function signUpPrisma(email: string) {
       message: "Please enter a valid email",
     };
 
+  return {
+    error: true,
+    message: "Please enter a valid email",
+  };
+
   // insert email in Subscription table
   const subscription = await prisma.subscription.create({
     data: {
