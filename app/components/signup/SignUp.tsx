@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import ButtonSignUp from "./ButtonSignUp";
 import ButtonLinkMail from "./ButtonLinkMail";
-import { signUpPrisma } from "@/app/actions/signUpPostgre";
+import { signUpPrisma } from "@/app/actions/signUpPrisma";
 import { validateEmail } from "@/app/actions/util";
 import Button from "./Button";
 

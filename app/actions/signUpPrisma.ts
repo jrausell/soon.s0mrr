@@ -23,7 +23,7 @@ export async function signUpPrisma(email: string) {
     return {
       success: false,
       message: "Error signing up, possible duplicate email",
-      error_e: e,
+      err: e,
     };
   }
 }
