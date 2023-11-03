@@ -9,21 +9,12 @@ export async function signUpPrisma(email: string) {
       message: "Please enter a valid email",
     };
 
-  try {
-    // insert email in Subscription table
-    const subscription = await prisma.subscription.create({
-      data: {
-        email,
-      },
-    });
+  // insert email in Subscription table
+  const subscription = await prisma.subscription.create({
+    data: {
+      email,
+    },
+  });
 
-    return subscription;
-  } catch (e) {
-    console.log(e);
-    return {
-      success: false,
-      message: "Error signing up, possible duplicate email",
-      err: e,
-    };
-  }
+  return subscription;
 }
