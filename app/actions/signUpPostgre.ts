@@ -3,7 +3,11 @@ import prisma from "@/db";
 import { validateEmail } from "./util";
 
 export async function signUpPrisma(email: string) {
-  if (!email || !validateEmail(email)) throw new Error("Email is required");
+  if (!email || !validateEmail(email))
+    return {
+      error: true,
+      message: "Please enter a valid email",
+    };
 
   try {
     // insert email in Subscription table

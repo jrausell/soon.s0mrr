@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import ButtonSignUp from "./ButtonSignUp";
 import ButtonLinkMail from "./ButtonLinkMail";
 import { signUpPrisma } from "@/app/actions/signUpPostgre";
+import { validateEmail } from "@/app/actions/util";
+import Button from "./Button";
 
 type signError = {
   level: "info" | "warning" | "error";
@@ -74,8 +76,13 @@ const SignUp = () => {
           className="relative w-full flex flex-row justify-start items-center rounded-lg bg-gray-100 text-white dark:bg-slate-500 dark:text-white transition-colors duration-1000"
           onSubmit={async (e) => {
             e.preventDefault();
+            if (!email || !validateEmail(email)) {
+              setError({ level: "error", error: "The Email is not valid" });
+              return;
+            }
+
             const subscribed = await signUpPrisma(email);
-            if (subscribed?.error) {
+            if ("error" in subscribed && subscribed.error) {
               handleError(subscribed.error);
             } else {
               setSubscribed(true);
@@ -96,7 +103,7 @@ const SignUp = () => {
               "input"
             )}`}
           />
-          <ButtonSignUp email={email} setError={handleError} />
+          <Button />
         </form>
       )}
       <ErrorMessage />

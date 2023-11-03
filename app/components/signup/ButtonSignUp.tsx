@@ -1,3 +1,4 @@
+import { signUpAirtable } from "@/app/actions/signUpAirtable";
 import React from "react";
 import process from "process";
 
@@ -41,6 +42,7 @@ const ButtonSignUp = ({
       <button
         type="submit"
         className={`absolute right-1 h-10 grow bg-gray-900 text-white rounded text-sm py-4 flex flex-row justify-center items-center px-4 z-20`}
+        onClick={async (e) => await handleSignUp(e)}
       >
         Sign up for news
       </button>
