@@ -1,0 +1,396 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Subscription {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String?
+  twitter        String?
+  emailConfirmed Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  role           String    @default("user")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  hashedPassword String?
+  accounts       Account[]
+  sessions       Session[]
+  library        Library?
+}
+
+model Account {
+  id                String    @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  bio               String?
+  mrr               Int?
+  xtwitter          String?
+  github            String?
+  web               String?
+  level             Int       @default(0)
+  countryId         String?
+  public            Boolean   @default(false)
+  languageId        String?
+  country           Country?  @relation(fields: [countryId], references: [id])
+  language          Language? @relation(fields: [languageId], references: [id])
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Country {
+  id    String    @id
+  name  String
+  users Account[]
+}
+
+model Language {
+  id    String    @id
+  name  String
+  users Account[]
+}
+
+model Category {
+  id           Int                @id @default(autoincrement())
+  name         String             @unique
+  validated    Boolean            @default(false)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  externalblog ExternalBlog[]
+  userExternal UserExternalBlog[]
+  podcast      Podcast[]
+  posts        Post[]
+  twitterUser  TwitterUser[]
+  userTwitter  UserTwitterUser[]
+  userPodcast  UserPodcast[]
+  project      Project[]
+}
+
+model Tag {
+  id           Int                @id @default(autoincrement())
+  name         String             @unique
+  validated    Boolean            @default(false)
+  createdBy    String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  podcast      Podcast[]          @relation("PodcastToTag")
+  posts        Post[]             @relation("PostToTag")
+  project      Project[]          @relation("ProjectToTag")
+  userPodcast  UserPodcast[]      @relation("UserPodcastToTag")
+  twitterUser  TwitterUser[]      @relation("TwitterUserToTag")
+  userTwitter  UserTwitterUser[]  @relation("UserTwitterUserToTag")
+  externalblog ExternalBlog[]     @relation("ExternalBlogToTag")
+  userExternal UserExternalBlog[] @relation("UserExternalBlogToTag")
+  externalPost ExternalBlogPost[] @relation("ExternalPostToTag")
+}
+
+// model with the steps to develop a SaaS
+model SaasStep {
+  id            Int            @id @default(autoincrement())
+  step          Int
+  name          String
+  description   String?
+  createdBy     String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  podcasts      Podcast[]
+  externalBlogs ExternalBlog[]
+  twitterUsers  TwitterUser[]
+  projects      Project[]
+
+  @@unique([step, name])
+}
+
+// LIBRARY
+model Library {
+  id           String                  @id @default(cuid())
+  userId       String                  @unique
+  following    Follows[]               @relation("follower")
+  followers    Follows[]               @relation("following")
+  posts        Post[]
+  user         User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  externalblog UserExternalBlog[]
+  podcasts     UserPodcast[]
+  twitterUser  UserTwitterUser[]
+  projects     ProjectOwner[]
+  postsSaved   UserExternalPostSaved[]
+}
+
+// POSTS - to use in the blog
+model Post {
+  id          String    @id @default(uuid())
+  title       String
+  content     String?
+  published   Boolean   @default(false)
+  categoryId  Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  validated   Boolean   @default(false)
+  validatedAt DateTime?
+  createdBy   String
+  author      Library   @relation(fields: [createdBy], references: [id])
+  category    Category  @relation(fields: [categoryId], references: [id])
+  tags        Tag[]     @relation("PostToTag")
+}
+
+// FOLLOW USERS - to follow users
+model Follows {
+  followerId  String
+  followingId String
+  follower    Library @relation("follower", fields: [followerId], references: [id])
+  following   Library @relation("following", fields: [followingId], references: [id])
+
+  @@id([followerId, followingId])
+}
+
+// PODACASTS
+model Podcast {
+  id           String           @id @default(uuid())
+  name         String           @unique
+  description  String?
+  publishedAt  DateTime?
+  hosts        String?
+  image        String?
+  website      String?
+  categoryId   Int
+  saasStepId   Int?
+  createdBy    String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  appleId      String?
+  spotifyId    String?
+  externalUrls Json?
+  languages    String[]
+  category     Category         @relation(fields: [categoryId], references: [id])
+  saasStep     SaasStep?        @relation(fields: [saasStepId], references: [id])
+  episodes     PodcastEpisode[]
+  listeners    UserPodcast[]
+  tags         Tag[]            @relation("PodcastToTag")
+}
+
+model UserPodcast {
+  id         String   @id @default(uuid())
+  userId     String
+  podcastId  String
+  categoryId Int
+  saasStepId Int?
+  tags       Tag[]    @relation("UserPodcastToTag")
+  podcast    Podcast  @relation(fields: [podcastId], references: [id])
+  user       Library  @relation(fields: [userId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+}
+
+model PodcastEpisode {
+  id           String    @id @default(uuid())
+  name         String
+  description  String?
+  duration     Int?
+  publishedAt  DateTime?
+  audioPreview String?
+  externalUrls Json?
+  image        String?
+  podcastId    String
+  appleId      String?
+  spotifyId    String?
+  episode      Int?
+  languages    String[]
+  podcast      Podcast   @relation(fields: [podcastId], references: [id])
+
+  @@unique([name, podcastId])
+}
+
+// EXTERNAL BLOGS
+model ExternalBlog {
+  id                   String             @id @default(uuid())
+  name                 String
+  description          String?
+  url                  String
+  feed                 String?
+  image                String?
+  languages            String[]
+  categoryId           Int
+  saasStepId           Int?
+  lastFetch            DateTime?
+  readable             Boolean            @default(false)
+  htmlArticleStructure Json?
+  createdBy            String?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  validated            Boolean            @default(false)
+  category             Category           @relation(fields: [categoryId], references: [id])
+  tags                 Tag[]              @relation("ExternalBlogToTag")
+  saasStep             SaasStep?          @relation(fields: [saasStepId], references: [id])
+  readers              UserExternalBlog[]
+  posts                ExternalBlogPost[]
+}
+
+model UserExternalBlog {
+  id             String       @id @default(uuid())
+  userId         String
+  externalBlogId String
+  categoryId     Int?
+  saasStepId     Int?
+  category       Category?    @relation(fields: [categoryId], references: [id])
+  tags           Tag[]        @relation("UserExternalBlogToTag")
+  blog           ExternalBlog @relation(fields: [externalBlogId], references: [id])
+  user           Library      @relation(fields: [userId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model ExternalBlogPost {
+  id             String                  @id @default(uuid())
+  externalBlogId String
+  link           String                  @unique
+  title          String
+  content        String?
+  contentSnippet String?
+  isoDate        DateTime?
+  author         String?
+  image          String?
+  externalBlog   ExternalBlog            @relation(fields: [externalBlogId], references: [id])
+  tags           Tag[]                   @relation("ExternalPostToTag")
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
+  postSaved      UserExternalPostSaved[]
+}
+
+model UserExternalPostSaved {
+  userId         String
+  externalPostId String
+  post           ExternalBlogPost @relation(fields: [externalPostId], references: [id])
+  user           Library          @relation(fields: [userId], references: [id])
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@id([userId, externalPostId])
+}
+
+// TWITTER USERS
+model TwitterUser {
+  id           String             @id
+  name         String
+  blue         Boolean            @default(false)
+  gold         Boolean            @default(false)
+  bio          String?
+  bgImage      String?
+  profileImage String?
+  followers    Int?               @default(0)
+  following    Int?               @default(0)
+  totalTweets  Int?               @default(0)
+  location     String?
+  website      String?
+  joinedAt     DateTime?
+  lastTweets   Json?
+  saasStepId   Int?
+  categoryId   Int?
+  category     Category?          @relation(fields: [categoryId], references: [id])
+  createdBy    String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  users        UserTwitterUser[]
+  tags         Tag[]              @relation("TwitterUserToTag")
+  saasStep     SaasStep?          @relation(fields: [saasStepId], references: [id])
+  tweets       TwitterUserTweet[]
+}
+
+model TwitterUserTweet {
+  id          String      @id @default(uuid())
+  twitterId   String
+  tweetId     String      @unique
+  tweet       String
+  link        String?
+  date        DateTime?
+  images      String[]
+  likes       Int?        @default(0)
+  retweets    Int?        @default(0)
+  replies     Int?        @default(0)
+  comments    Int?        @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  twitterUser TwitterUser @relation(fields: [twitterId], references: [id])
+}
+
+// model relation User/TwitterUser
+model UserTwitterUser {
+  id          String      @id @default(cuid())
+  userId      String
+  twitterId   String
+  categoryId  Int?
+  saasStepId  Int?
+  category    Category?   @relation(fields: [categoryId], references: [id])
+  tags        Tag[]       @relation("UserTwitterUserToTag")
+  user        Library     @relation(fields: [userId], references: [id])
+  twitterUser TwitterUser @relation(fields: [twitterId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+// PROJECTS - User projects
+model Project {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  url         String?
+  image       String?
+  languages   String[]
+  categoryId  Int?
+  saasStepId  Int?
+  private     Boolean        @default(true)
+  tags        Tag[]          @relation("ProjectToTag")
+  createdBy   String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  category    Category?      @relation(fields: [categoryId], references: [id])
+  saasStep    SaasStep?      @relation(fields: [saasStepId], references: [id])
+  owners      ProjectOwner[]
+}
+
+model ProjectOwner {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String
+  project   Project  @relation(fields: [projectId], references: [id])
+  user      Library  @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

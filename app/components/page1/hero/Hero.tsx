@@ -8,7 +8,7 @@ const Hero = () => {
   return (
     <>
       <div className="relative flex flex-row justify-center items-center ">
-        <div className="relative max-w-4xl mt-8 p-8 flex flex-row">
+        <div className="relative max-w-4xl p-8 xl:p-0 2xl:mb-8 flex flex-row">
           {/* text */}
           <div className="w-3/5">
             <div className="grow-0 shrink h-auto flex flex-row justify-start items-center">
@@ -21,7 +21,7 @@ const Hero = () => {
               </span>
             </div>
             {/* */}
-            <div className="mt-4 font-extralight text-2xl flex flex-col justify-between">
+            <div className="mt-4 font-extralight text-2xl flex flex-col justify-between max-w-[780px]">
               <div>Tired of everything being messy?</div>
               <div>
                 Keep track of the things that{" "}

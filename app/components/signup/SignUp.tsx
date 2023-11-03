@@ -1,8 +1,8 @@
 "use client";
-import { signUpAirtable } from "@/app/actions/signUpAirtable";
 import React, { useState } from "react";
 import ButtonSignUp from "./ButtonSignUp";
 import ButtonLinkMail from "./ButtonLinkMail";
+import { signUpPrisma } from "@/app/actions/signUpPostgre";
 
 type signError = {
   level: "info" | "warning" | "error";
@@ -12,6 +12,7 @@ type signError = {
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<signError>();
+  const [subscribed, setSubscribed] = useState(false);
 
   const defaultCss = {
     input: {
@@ -66,22 +67,38 @@ const SignUp = () => {
 
   return (
     <div className="w-full">
-      <form
-        target="#"
-        method="POST"
-        className="relative w-full flex flex-row justify-start items-center rounded-lg bg-gray-100 text-white dark:bg-slate-500 dark:text-white transition-colors duration-1000"
-      >
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={`w-full h-10 py-6 px-4 bg-transparent z-10 text-gray-700 rounded border ${errorClass(
-            "input"
-          )}`}
-        />
-        <ButtonSignUp email={email} setError={handleError} />
-      </form>
+      {!subscribed && (
+        <form
+          target="#"
+          method="POST"
+          className="relative w-full flex flex-row justify-start items-center rounded-lg bg-gray-100 text-white dark:bg-slate-500 dark:text-white transition-colors duration-1000"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const subscribed = await signUpPrisma(email);
+            if (subscribed?.error) {
+              handleError(subscribed.error);
+            } else {
+              setSubscribed(true);
+              setError({
+                level: "info",
+                error: "Thank you for subscribing !",
+              });
+            }
+            return false;
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={`w-full h-10 py-6 px-4 bg-transparent z-10 text-gray-700 rounded border ${errorClass(
+              "input"
+            )}`}
+          />
+          <ButtonSignUp email={email} setError={handleError} />
+        </form>
+      )}
       <ErrorMessage />
     </div>
   );

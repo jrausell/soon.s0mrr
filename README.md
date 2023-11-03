@@ -1,3 +1,5 @@
+https://mytchall.dev/setting-up-a-next-js-app-on-plesk-control-panel-with-git-auto-deploy/
+
 # Coming Soon Template - React + Tailwind
 
 A simple but nice coming soon page boilerplate.
