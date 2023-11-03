@@ -53,7 +53,7 @@ const Hero = () => {
           {/* image */}
           <div className="absolute bottom-0 right-0 w-1/2 h-full  flex flex-row justify-end">
             <Image
-              src={"/images/search.png"}
+              src={imgSearch}
               width={300}
               height={300}
               className="h-auto w-auto"
