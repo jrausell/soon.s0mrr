@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import SignUp from "../../signup/SignUp";
 import ButtonLinkMail from "../../signup/ButtonLinkMail";
+import imgSearch from "../../../../public/images/search.png";
 
 const Hero = () => {
   return (
@@ -52,7 +53,7 @@ const Hero = () => {
           {/* image */}
           <div className="absolute bottom-0 right-0 w-1/2 h-full  flex flex-row justify-end">
             <Image
-              src="/images/search.png"
+              src={"/images/search.png"}
               width={300}
               height={300}
               className="h-auto w-auto"
