@@ -2,7 +2,7 @@
 import prisma from "@/db";
 import { validateEmail } from "./util";
 
-export async function signUpPrisma(email: string) {
+export async function signUpMysql(email: string) {
   if (!email || !validateEmail(email))
     return {
       error: true,
