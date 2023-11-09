@@ -28,6 +28,7 @@ const Footer = () => {
   return (
     <>
       <div
+        id="footer"
         className={`fixed w-full  z-50 ${
           !open ? "bottom-0" : "top-0 h-screen backdrop-blur-sm "
         }}`}
