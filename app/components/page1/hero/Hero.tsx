@@ -7,12 +7,12 @@ import imgSearch from "../../../../public/images/search.png";
 const Hero = () => {
   return (
     <>
-      <div className="relative flex flex-row justify-center items-center ">
-        <div className="relative w-full lg:max-w-4xl p-8 xl:p-0 2xl:mb-8 flex flex-col lg:flex-row">
+      <div className="relative flex flex-row justify-center items-center mt-2">
+        <div className="relative w-full lg:max-w-4xl p-4 lg:p-8 xl:p-0 2xl:mb-8 flex flex-col lg:flex-row">
           {/* text */}
           <div className="w-full lg:w-3/5">
             <div className="grow-0 shrink h-auto flex flex-col lg:flex-row justify-start items-center">
-              <h1 className="relative text-6xl font-black bg-gradient-to-br from-cyan-400 via-purple-300 to-fuchsia-700 text-transparent bg-clip-text">
+              <h1 className="relative text-5xl font-black bg-gradient-to-br from-cyan-400 via-purple-300 to-fuchsia-700 text-transparent bg-clip-text">
                 <span className="text-blue-300">$</span>
                 <span className="text-pink-300">0</span>MRR
               </h1>
@@ -46,7 +46,7 @@ const Hero = () => {
               </div>
               {/* image mobile */}
               <div
-                className="relative bottom-0 right-0 w-full h-60 flex flex-col justify-end"
+                className="relative bottom-0 right-0 w-full h-52 flex flex-col justify-end"
                 style={{
                   backgroundImage: "url(/images/search.png)",
                   backgroundPosition: "top",
@@ -55,7 +55,7 @@ const Hero = () => {
                 }}
               ></div>
               {/* form */}
-              <div className=" mt-20 flex flex-col justify-start w-full lg:w-4/5">
+              <div className=" mt-8 lg:mt-20 flex flex-col justify-start w-full lg:w-4/5">
                 <SignUp />
               </div>
             </div>
