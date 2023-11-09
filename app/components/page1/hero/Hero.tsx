@@ -49,7 +49,7 @@ const Hero = () => {
                 </div>
               </div>
               {/* form */}
-              <div className=" mt-8 lg:mt-20 flex flex-col justify-start w-full sm:w-4/5">
+              <div className=" mt-8 lg:mt-20 flex flex-col justify-start w-full lg:w-4/5">
                 <SignUp />
               </div>
             </div>
@@ -57,7 +57,7 @@ const Hero = () => {
           {/* image sm */}
           <div
             id="mobile_horiz"
-            className="relative lg:hidden w-full h-48 sm:w-1/3 lg:w-1/2 lg:h-full"
+            className="relative hidden sm:block lg:hidden w-full h-48 sm:w-1/3 lg:w-1/2 lg:h-full"
             style={{
               backgroundImage: "url(/images/search.png)",
               backgroundPosition: "top",
