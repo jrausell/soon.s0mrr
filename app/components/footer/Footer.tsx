@@ -35,7 +35,7 @@ const Footer = () => {
       >
         <div className="fixed bottom-0 w-full flex flex-col items-start max-h-[60%] text-slate-800 dark:text-slate-400">
           {/* tab */}
-          <div className="w-full px-6 flex flex-row gap-4 justify-between">
+          <div className="w-full px-6 flex flex-row gap-4 justify-end lg:justify-between">
             <div
               className={`relative z-20 -mb-px text-xs w-fit cursor-pointer rounded-t-lg py-2 px-3 border border-transparent border-b-0  hover:border-x hover:border-t hover:border-gray-300 hover:bg-white transition-all duration-500 ${
                 open ? "bg-white" : ""
